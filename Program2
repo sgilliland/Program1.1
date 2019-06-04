@@ -1,0 +1,43 @@
+// Sarah Gilliland
+// CMPS 1044 - Halverson
+// Lab 2 - Measurement Conversions
+// October 9, 2018
+// This program reads a distance in feet and displays the conversion from feet
+// to yards, inches, centimeters and meters.
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+
+int main()
+{
+	int count;
+	// Declaring each measurement
+	double Feet, Yard, Inch, Cent, Meter;
+	count = 1;
+
+	// Opening the outfile where the measurements will be displayed
+	ofstream outfile;
+	outfile.open("Output.txt");
+	outfile << "Sarah Gilliland\n\n";
+	outfile << fixed << setprecision(5);
+	// Looping so we can insert 10 data items
+	while (count <= 10)
+	{
+		// Conversions from feet to the other measurements
+		cout << "Please enter the measurement in feet: ";
+		cin >> Feet;
+		Yard = Feet / 3;
+		Inch = Feet * 12;
+		Cent = Inch * 2.54;
+		Meter = Cent / 100;
+		outfile << Feet << " feet equals\n" << setw(17) << Yard << " yards\n"
+			<< setw(17) << Inch << " inches\n" << setw(17) << Cent
+			<< " centimeters\n" << setw(17) << Meter << " meters\n\n";
+		count += 1;
+	}
+	outfile.close();
+	return 0;
+}
