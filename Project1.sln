@@ -1,31 +1,51 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2019
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project1", "Project1\Project1.vcxproj", "{5C98BA02-5FED-432D-B262-617D26B15BA9}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5C98BA02-5FED-432D-B262-617D26B15BA9}.Debug|x64.ActiveCfg = Debug|x64
-		{5C98BA02-5FED-432D-B262-617D26B15BA9}.Debug|x64.Build.0 = Debug|x64
-		{5C98BA02-5FED-432D-B262-617D26B15BA9}.Debug|x86.ActiveCfg = Debug|Win32
-		{5C98BA02-5FED-432D-B262-617D26B15BA9}.Debug|x86.Build.0 = Debug|Win32
-		{5C98BA02-5FED-432D-B262-617D26B15BA9}.Release|x64.ActiveCfg = Release|x64
-		{5C98BA02-5FED-432D-B262-617D26B15BA9}.Release|x64.Build.0 = Release|x64
-		{5C98BA02-5FED-432D-B262-617D26B15BA9}.Release|x86.ActiveCfg = Release|Win32
-		{5C98BA02-5FED-432D-B262-617D26B15BA9}.Release|x86.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {0D82CF89-19C5-482E-A92E-17F7442EE802}
-	EndGlobalSection
-EndGlobal
+// Sarah Gilliland
+// CSI 1044 - Halverson
+// Program 1 - Sales Tax
+// This program prompts the user for the purchase amount and prints out a
+// recept which includes the purchase amount, state sales tax,
+// city sales tax and total sales tax.
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+
+int main(void)
+{
+	// Defining my variables
+	int count;
+	double PAmount, STax, CTax, TotalAmount;
+	const double STaxPercent = 0.05, CTaxPercent = 0.032;
+		count = 1;
+	// Create the outfile
+	ofstream outfile;
+	outfile.open("Test.txt");
+	outfile << "Sarah Gilliland\n\n";
+	// Setting the decimals
+	outfile << fixed << setprecision(2);
+	// Looping the program for 10 purchase reports
+	while (count <= 10)
+	{
+		//Prompting my user for the purchase amount
+		cout << "Please enter the purchase amount: ";
+		cin >> PAmount;
+		// Program statements
+		STax = PAmount * STaxPercent;
+		CTax = PAmount * CTaxPercent;
+		TotalAmount = PAmount + STax + CTax;
+		outfile << left << setw(24) << "\nPurchase amount" << right << "$" 
+			<< setw(9) << PAmount << '\n';
+		outfile << left << setw(23) << "State sales tax" << right << "$" 
+			<< setw(9) << STax << '\n';
+		outfile << left << setw(23) << "City sales tax" << right << "$" 
+			<< setw(9) << CTax << '\n';
+		outfile << setw(35) << "-------------\n";
+			outfile << left << setw(23) << "Total sales amount" << right 
+				<< "$" << setw(9) << TotalAmount << '\n';
+		count += 1;
+	}
+	// End the program
+	system("pause");
+	return 0;
+}
