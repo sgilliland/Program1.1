@@ -3,7 +3,7 @@
 // Program 1 - Sales Tax
 // This program prompts the user for the purchase amount and prints out a
 // recept which includes the purchase amount, state sales tax,
-// city sales tax and total sales tax.
+// city sales tax and total sales tax in a specific format.
 
 #include <iostream>
 #include <fstream>
