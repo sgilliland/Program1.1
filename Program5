@@ -1,0 +1,38 @@
+/***************************************************************************
+Sarah Gilliland
+CMPS 1044 - Halverson
+Program 5 - Squares using for statements
+November 6, 2018
+This program takes 17 integers from an input file and computes and displays
+the square of each number by the use of addition.
+***************************************************************************/
+
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+int main()
+{
+	int XInt, Sum, NInt, x;
+	ifstream inFile;
+	inFile.open("SquareIntegers.txt");
+	ofstream outFile;
+	outFile.open("output.txt");
+	outFile << "\nStudent: Sarah Gilliland\n\n";
+	// Outter counting loop to make the program run for 17 integers
+	for (x = 1; x <= 17; x++)
+	{
+		// Retrieving the integers from the input file
+		inFile >> NInt;
+		Sum = 0;
+		// Inner loop to compute the square by addition
+		for (XInt = 1; XInt <= 2 * NInt; XInt += 2)
+		{
+			Sum = Sum + XInt;
+		}
+		// Printing the final statement to the outfile
+		outFile << "The square of " << NInt << " is " << Sum << ".\n";
+	}
+	return 0;
+}
