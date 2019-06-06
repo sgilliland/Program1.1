@@ -1,0 +1,104 @@
+/**************************************************************************
+Sarah Gilliland
+CMPS 1044 - Halverson
+Program 6 - Texas Idol
+November 15, 2018
+This program reads the contestant's name and the correlating 5 judges'
+scores from a file and calculates the average (discluding the highest
+and lowest score). It prints the contestant's name, average score, and all
+five judges' scores. The average and highest and lowest scores are all
+calculated in separate functions.
+**************************************************************************/
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <string>
+
+using namespace std;
+
+double Calculate_Score(double ScoreA1, double ScoreB1, double ScoreC1,
+	double ScoreD1, double ScoreE1);
+double Find_Lowest(double ScoreA2, double ScoreB2, double ScoreC2, 
+	double ScoreD2, double ScoreE2);
+double Find_Highest(double ScoreA3, double ScoreB3, double ScoreC3, 
+	double ScoreD3, double ScoreE3);
+
+int main()
+{
+	double ScoreA, ScoreB, ScoreC, ScoreD, ScoreE, MAvg;
+	string Name;
+
+	ifstream inFile;
+	inFile.open("input.txt");
+
+	ofstream outFile;
+	outFile.open("output.txt");
+	outFile << "Sarah Gilliland\n\n";
+	outFile << "  Name         Avg Score               Judges' Scores\n";
+	outFile << "                                  #1    #2    #3    #4    #5\n";
+	
+	// Reading in the names and scores for any number of contestants
+	while (inFile >> Name >> ScoreA >> ScoreB >> ScoreC >> ScoreD >> ScoreE)
+	{
+		MAvg = Calculate_Score(ScoreA, ScoreB, ScoreC, ScoreD, ScoreE);
+		// Formating the table that will display the contestant names and scores
+		outFile << left << setw(13) << Name << '\t' << fixed << setprecision(3) 
+			<< right << setw(6) << MAvg << fixed << setprecision(1) << setw(15) 
+			<< ScoreA << setw(6) << ScoreB << setw(6) << ScoreC << setw(6) 
+			<< ScoreD << setw(6) << ScoreE << '\n';
+	}
+
+	outFile.close();
+	inFile.close();
+	return 0;
+}
+
+ // Function that finds the lowest score given by a judge
+ double Find_Lowest(double ScoreA2, double ScoreB2, double ScoreC2, 
+	double ScoreD2, double ScoreE2)
+ {
+	double Min;
+	if (ScoreA2 < ScoreB2 && ScoreA2 < ScoreC2 && ScoreA2 < ScoreD2 
+		&& ScoreA2 < ScoreE2)
+		Min = ScoreA2;
+	else if (ScoreB2 < ScoreC2 && ScoreB2 < ScoreD2 && ScoreB2 < ScoreE2)
+		Min = ScoreB2;
+	else if (ScoreC2 < ScoreD2 && ScoreC2 < ScoreE2)
+		Min = ScoreC2;
+	else if (ScoreD2 < ScoreE2)
+		Min = ScoreD2;
+	else
+		Min = ScoreE2;
+	return Min;
+ }
+ // Function that finds the highest score given by a judge
+ double Find_Highest(double ScoreA3, double ScoreB3, double ScoreC3, 
+	 double ScoreD3, double ScoreE3)
+ {
+	 double Max;
+	if (ScoreA3 > ScoreB3 && ScoreA3 > ScoreC3 && ScoreA3 > ScoreD3 
+		&& ScoreA3 > ScoreE3)
+		Max = ScoreA3;
+	else if (ScoreB3 > ScoreC3 && ScoreB3 > ScoreD3 && ScoreB3 > ScoreE3)
+		Max = ScoreB3;
+	else if (ScoreC3 > ScoreD3 && ScoreC3 > ScoreE3)
+		Max = ScoreC3;
+	else if (ScoreD3 > ScoreE3)
+		Max = ScoreD3;
+	else
+		Max = ScoreE3;
+	return Max;
+ }
+ // Function that finds the average of the three scores once the min and
+ // max scores have been eliminated
+ double Calculate_Score(double ScoreA1, double ScoreB1, double ScoreC1, 
+	 double ScoreD1, double ScoreE1)
+ {
+	double Avg, Amin, Amax;
+	Amin = Find_Lowest(ScoreA1, ScoreB1, ScoreC1, ScoreD1, ScoreE1);
+	Amax = Find_Highest(ScoreA1, ScoreB1, ScoreC1,
+		ScoreD1, ScoreE1);
+	Avg = ((ScoreA1 + ScoreB1 + ScoreC1 + ScoreD1 + ScoreE1) - Amax - Amin) / 3;
+	return Avg;
+ }
