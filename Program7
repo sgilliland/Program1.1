@@ -1,0 +1,158 @@
+/***************************************************************************
+Sarah Gilliland
+CMPS 1044 - Halverson
+Program 7 - Texas Idol Pt. 2
+December 3, 2018
+This program reads the contestant's name and the correlating 5 judges' 
+scores from a file and then calculates the average (discluding the highest
+and lowest score) and finds the winning contestant. It prints the 
+contestant's name and average score. The average, highest and lowest 
+scores, and winner are all calculated in separate functions.
+***************************************************************************/
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <string>
+
+using namespace std;
+
+double Calculate_Score(double ScoreA1, double ScoreB1, double ScoreC1,
+	double ScoreD1, double ScoreE1);
+double Find_Lowest(double ScoreA2, double ScoreB2, double ScoreC2,
+	double ScoreD2, double ScoreE2);
+double Find_Highest(double ScoreA3, double ScoreB3, double ScoreC3,
+	double ScoreD3, double ScoreE3);
+int Find_Winner(double ArrayScores[], int Number);
+
+int main()
+{
+	string Name[35];
+	double Score[35];
+	double ScoreA, ScoreB, ScoreC, ScoreD, ScoreE;
+	int i, a, Index, NumCount;
+
+	ifstream inFile;
+	inFile.open("input2.txt");
+	ofstream outFile;
+	outFile.open("output.txt");
+
+	i = 0;
+
+	// Filling Array 1 with the names of the contestants
+	while (inFile >> Name[i]) 
+	{
+		// Accepting the scores of each contestant
+		inFile >> ScoreA >> ScoreB >> ScoreC >> ScoreD >> ScoreE;
+
+		// Filling Array 2 with the calculated scores of each contestant
+		Score[i] = Calculate_Score(ScoreA, ScoreB, ScoreC, ScoreD, ScoreE);
+		i++;
+	}
+	NumCount = i;
+	
+	outFile << "Programmer: Sarah Gilliland\n\n";
+	outFile << "  Name         Avg. Score\n";
+	outFile << "__________________________________________\n\n";
+
+	for (a = 0; a < NumCount; a++)
+	{
+		outFile << left << setw(13) << Name[a] << '\t' << fixed 
+			<< setprecision(3)
+			<< right << setw(6) << Score[a] << '\n';
+	}
+
+	// Calling the function to find the winning contestant
+	Index = Find_Winner(Score, NumCount);
+	outFile << "\nThe winner is " << Name[Index] << " with a score of " 
+		<< Score[Index] << "!\n";
+	outFile.close();
+	inFile.close();
+	return 0;
+}
+
+/*  Name: Find_Lowest
+	Input: 5 Scores
+	Process: Uses if statements to find the min score
+	Output: the score with the minimum value
+*/
+double Find_Lowest(double ScoreA2, double ScoreB2, double ScoreC2,
+	double ScoreD2, double ScoreE2)
+{
+	double Min;
+	if (ScoreA2 < ScoreB2 && ScoreA2 < ScoreC2 && ScoreA2 < ScoreD2
+		&& ScoreA2 < ScoreE2)
+		Min = ScoreA2;
+	else if (ScoreB2 < ScoreC2 && ScoreB2 < ScoreD2 && ScoreB2 < ScoreE2)
+		Min = ScoreB2;
+	else if (ScoreC2 < ScoreD2 && ScoreC2 < ScoreE2)
+		Min = ScoreC2;
+	else if (ScoreD2 < ScoreE2)
+		Min = ScoreD2;
+	else
+		Min = ScoreE2;
+	return Min;
+}
+
+/*  Name: Find_Highest
+	Input: 5 Scores
+	Process: Uses if statements to find the max score
+	Output: the score with the maximum value
+*/
+double Find_Highest(double ScoreA3, double ScoreB3, double ScoreC3,
+	double ScoreD3, double ScoreE3)
+{
+	double Max;
+	if (ScoreA3 > ScoreB3 && ScoreA3 > ScoreC3 && ScoreA3 > ScoreD3
+		&& ScoreA3 > ScoreE3)
+		Max = ScoreA3;
+	else if (ScoreB3 > ScoreC3 && ScoreB3 > ScoreD3 && ScoreB3 > ScoreE3)
+		Max = ScoreB3;
+	else if (ScoreC3 > ScoreD3 && ScoreC3 > ScoreE3)
+		Max = ScoreC3;
+	else if (ScoreD3 > ScoreE3)
+		Max = ScoreD3;
+	else
+		Max = ScoreE3;
+	return Max;
+}
+
+/*  Name: Calculate_Score
+	Input: 5 Scores, min value from Find_Lowest, max value from Find_Highest
+	Process: Adds up all 5 scores and then subtracts the max and min values
+			and divides it all by 3
+	Output: the average of the scores (except the min and max scores)
+*/
+double Calculate_Score(double ScoreA1, double ScoreB1, double ScoreC1,
+	double ScoreD1, double ScoreE1)
+{
+	double Avg, Amin, Amax;
+	Amin = Find_Lowest(ScoreA1, ScoreB1, ScoreC1, ScoreD1, ScoreE1);
+	Amax = Find_Highest(ScoreA1, ScoreB1, ScoreC1,
+		ScoreD1, ScoreE1);
+	Avg = ((ScoreA1 + ScoreB1 + ScoreC1 + ScoreD1 + ScoreE1) - Amax - Amin)/3;
+	return Avg;
+}
+
+/*  Name: Find_Winner
+	Input: array containing the average scores and number of contestants
+	Process: uses an if statement to find the highest score and its index
+	Output: the index of the student with the highest score
+*/
+int Find_Winner(double ArrayScores[], int Number)
+{
+	double Max;
+	int MaxIndex;
+	Max = ArrayScores[0];
+	MaxIndex = 0;
+	int i;
+	for (i = 1; i < Number; i++)
+	{
+		if (ArrayScores[i] > Max)
+		{
+			Max = ArrayScores[i];
+			MaxIndex = i;
+		}
+	}
+	return MaxIndex;
+}
