@@ -1,7 +1,7 @@
 /**************************************************************************
 Sarah Gilliland
 CMPS 1044 - Halverson
-Program 6 - Texas Idol
+Program 6 - Texas Idol pt. 1
 November 15, 2018
 This program reads the contestant's name and the correlating 5 judges'
 scores from a file and calculates the average (discluding the highest
