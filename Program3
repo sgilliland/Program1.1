@@ -1,0 +1,98 @@
+/******************************************************************************
+Sarah Gilliland
+CMPS 1044 - Halverson
+Program 3 - Nlogonia
+October 18, 2018
+This program read coordinates from an input file and determines the country
+where a given coordinate is located in the land of Nlogonia. It prints a
+table with the coordinates and the corresponding location to an output file.
+******************************************************************************/
+
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+
+using namespace std;
+
+int main()
+{
+	ofstream outputFile;
+	outputFile.open("Output.txt");
+	outputFile << "Sarah Gilliland\n\n\n";
+
+	// Opening the input file that contains the location coordinates
+	ifstream inputFile;
+	int XCoor, YCoor;
+	inputFile.open("NlogoniaData1.txt");
+
+	// Reading the first location coordinates from the input file
+	inputFile >> XCoor >> YCoor;
+
+	outputFile << "The division point is " << XCoor << ", " 
+		<< YCoor << "\n";
+	
+	int NewXCoor, NewYCoor;
+	// Looping so that all of the coordinants are read from the input file
+	while (inputFile >> NewXCoor >> NewYCoor)
+	{
+		// Comparing the coordinates to the division point with if statements
+		if (NewXCoor == XCoor && NewYCoor == YCoor)
+		{
+			outputFile << setw(6) << NewXCoor << setw(6) << NewYCoor 
+				<< "\tDivision Point\n";
+		}
+		else if (NewXCoor == XCoor || NewYCoor == YCoor)
+		{
+			if (NewXCoor == XCoor && NewYCoor > YCoor)
+			{
+				outputFile << setw(6) << NewXCoor << setw(6) << NewYCoor
+					<< "\tDividing line between Comanche and Kiowa\n";
+			}
+			else if (NewXCoor == XCoor && NewYCoor < YCoor)
+			{
+				outputFile << setw(6) << NewXCoor << setw(6) << NewYCoor
+					<< "\tDividing line between Tepee and Nocona\n";
+			}
+			else if (NewXCoor > XCoor && NewYCoor == YCoor)
+			{
+				outputFile << setw(6) << NewXCoor << setw(6) << NewYCoor
+					<< "\tDividing line between Kiowa and Tepee\n";
+			}
+			else if (NewXCoor < XCoor && NewYCoor == YCoor)
+			{
+				outputFile << setw(6) << NewXCoor << setw(6) << NewYCoor
+					<< "\tDividing line between Comanche and Nocona\n";
+			}
+		}
+		else if (NewXCoor >= XCoor)
+		{
+			if (NewYCoor > YCoor) // Checking for Kiowa
+			{
+				outputFile << setw(6) << NewXCoor << setw(6) << NewYCoor 
+					<< "\tKiowa\n";
+			}
+			else // Checking for Teepee
+			{
+				outputFile << setw(6) << NewXCoor << setw(6) << NewYCoor 
+					<< "\tTeepee\n";
+			}
+		}
+		else
+		{
+			if (NewYCoor > YCoor) // Checking for Comanche
+			{
+				outputFile << setw(6) << NewXCoor << setw(6) << NewYCoor 
+					<< "\tComanche\n";
+			}
+			else // Checking for Nocona
+			{
+				outputFile << setw(6) << NewXCoor << setw(6) << NewYCoor 
+					<< "\tNocona\n";
+			}
+		}
+	}
+	// Closing the output and input files
+	outputFile.close();
+	inputFile.close();
+	return 0;
+}
